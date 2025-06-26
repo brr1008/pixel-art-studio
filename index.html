@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixel Art Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🎨 Pixel Art Studio</h1>
+  <div id="toolbar">
+    <label for="tool">Tool:</label>
+    <select id="tool">
+      <option value="brush">Brush</option>
+      <option value="eraser">Eraser</option>
+      <option value="fill">Fill</option>
+      <option value="eyedropper">Eyedropper</option>
+    </select>
+    <input type="color" id="colorPicker" />
+    <div id="palette"></div>
+    <button id="clear">Clear</button>
+    <button id="save">Save as PNG</button>
+    <button id="export">Export JSON</button>
+    <button id="import">Import JSON</button>
+    <input type="file" id="fileInput" hidden />
+  </div>
+
+  <div id="grid"></div>
+  <canvas id="canvas" width="320" height="320"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
