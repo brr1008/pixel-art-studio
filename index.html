@@ -1,124 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pixel Art Studio</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="css/components.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Pixel Art Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <h1>🎨 Pixel Art Studio</h1>
-    <div class="top-menu">
-      <button id="file-menu-btn">File</button>
-      <button id="edit-menu-btn">Edit</button>
-      <button id="view-menu-btn">View</button>
-      <button id="help-menu-btn">Help</button>
-      <button id="share-image-btn" title="Share your pixel art!">Share</button>
+<body class="flex flex-col items-center justify-center p-4 bg-gray-100 min-h-screen">
+    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl max-w-5xl w-full flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <!-- Controls Panel -->
+        <div class="flex flex-col gap-5 lg:w-1/3">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center lg:text-left">Pixel Art Studio</h1>
+
+            <!-- Grid Size Controls -->
+            <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                <label for="gridWidth" class="block text-sm font-medium text-gray-700 mb-2">Grid Width:</label>
+                <input type="range" id="gridWidth" min="5" max="50" value="20"
+                       class="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer range-lg accent-blue-500">
+                <span id="widthValue" class="text-sm text-gray-600 mt-1 block text-right">20</span>
+
+                <label for="gridHeight" class="block text-sm font-medium text-gray-700 mt-4 mb-2">Grid Height:</label>
+                <input type="range" id="gridHeight" min="5" max="50" value="20"
+                       class="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer range-lg accent-blue-500">
+                <span id="heightValue" class="text-sm text-gray-600 mt-1 block text-right">20</span>
+
+                <button id="createGridBtn"
+                        class="mt-6 w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                    Create Grid
+                </button>
+            </div>
+
+            <!-- Drawing Tools -->
+            <div class="bg-gray-50 p-4 rounded-lg shadow-inner flex flex-col items-center">
+                <label for="colorPicker" class="block text-sm font-medium text-gray-700 mb-2">Select Color:</label>
+                <input type="color" id="colorPicker" value="#000000"
+                       class="w-16 h-16 rounded-xl border-2 border-gray-300 cursor-pointer shadow-md">
+
+                <div class="flex gap-3 mt-6 w-full justify-center">
+                    <button id="toolPen" data-tool="pen"
+                            class="tool-button active bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-300 shadow-md">
+                        Pen
+                    </button>
+                    <button id="toolEraser" data-tool="eraser"
+                            class="tool-button bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition duration-300 shadow-md">
+                        Eraser
+                    </button>
+                    <button id="toolFill" data-tool="fill"
+                            class="tool-button bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-semibold hover:bg-gray-400 transition duration-300 shadow-md">
+                        Fill
+                    </button>
+                </div>
+
+                <div class="flex gap-4 mt-6 w-full">
+                    <button id="clearBtn"
+                            class="flex-1 bg-red-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-red-600 transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">
+                        Clear
+                    </button>
+                    <button id="downloadBtn"
+                            class="flex-1 bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+                        Download
+                    </button>
+                </div>
+            </div>
+
+            <!-- Share Feature -->
+            <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                <button id="shareBtn"
+                        class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-purple-700 transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-75">
+                    Share Drawing
+                </button>
+            </div>
+        </div>
+
+        <!-- Pixel Grid Canvas -->
+        <div class="flex-1 bg-white p-4 rounded-xl shadow-inner flex items-center justify-center min-h-[300px] lg:min-h-[500px]">
+            <div id="pixelGrid" class="pixel-grid-container">
+                <!-- Pixels will be generated here by JavaScript -->
+            </div>
+        </div>
     </div>
-  </header>
-  
-  <main id="app-container">
-    <aside id="left-sidebar" class="sidebar">
-      <div class="panel tool-panel">
-        <h2> Tools </h2>
-        <div id="tool-icons" class="icon-grid">
-          <button class="tool-btn active" data-tool="brush" title="Brush (B)"> Brush </button>
-          <button class="tool-btn" data-tool="eraser" title="Eraser (E)"> Eraser</button>
-          <button class="tool-btn" data-tool="fill" title="Fill Bucket (G)"> Fill Bucket </button>
-          <button class="tool-btn" data-tool="eyedropper" title="Eyedropper (I)"> Eye Dropper </button>
-          <button class="tool-btn" data-tool="rectangle" title="Rectangle (R)"> Rectangle </button>
-          <button class="tool-btn" data-tool="circle" title="Circle (C)"> Circle </button>
-          <button class="tool-btn" data-tool="select" title="Selection (M)"> Selection </button>
-          <button class="tool-btn" data-tool="pan" title="Pan (H)"> Pan </button>
-          <button class="tool-btn" data-tool="zoom" title="Zoom (Z)"> Zoom </button>
-        </div>
-        <div id="tool-options">
-          <label for="brush-size">Brush Size:</label>
-          <input type="range" id="brush-size" min="1" max="50" value="5" />
-          <span id="brush-size-value">5</span>
-        </div>
-      </div>
 
-      <div class="panel color-panel">
-        <h2> Colors </h2>
-        <input type="color" id="current-color-picker" value="#000000" />
-        <div id="palette-display" class="palette-grid">
-          <div class="color-swatch" style="background-color: #000000;"></div>
-          <div class="color-swatch" style="background-color: #ffffff;"></div>
-          <div class="color-swatch" style="background-color: #ff0000;"></div>
-          <div class="color-swatch" style="background-color: #00ff00;"></div>
-          <div class="color-swatch" style="background-color: #0000ff;"></div>
+    <!-- Custom Message/Confirm Modal -->
+    <div id="messageModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full relative text-center">
+            <h2 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-4"></h2>
+            <p id="modalMessage" class="text-gray-700 mb-6"></p>
+            <div id="modalButtons" class="flex gap-4 justify-center">
+                <!-- Buttons will be injected by JS -->
+            </div>
         </div>
-        <button id="add-color-btn" title="Add Color"> Add Color </button>
-        <button id="add-to-palette-btn" title="Add to Palette"> Add to Palette </button>
-        <button id="manage-palette-btn" title="Manage Palette"> Manage Palette </button>
-      </div>
-    </aside>
+    </div>
 
-    <section id="canvas-area">
-      <div id="canvas-controls">
-        <span id="canvas-size"> Canvas: 32x32</span>
-        <button id="undo-btn" title="Undo (Ctrl+Z)"> Undo </button>
-        <button id="redo-btn" title="Redo (Ctrl+Y)"> Redo </button>
-        <button id="clear-canvas-btn" title="Clear Canvas"> Clear Canvas </button>
-        <label for="zoom-level">Zoom:</label>
-        <input type="range" id="zoom-level" min="1" max="10" value="1" step="0.1" />
-        <span id="zoom-value">100%</span>
-        <label for="grid-visibility">Grid:</label>
-        <input type="checkbox" id="grid-visibility" checked />
-      </div>
-      <div id="canvas-wrapper">
-        <canvas id="pixel-canvas"></canvas>
-      </div>
-    </section>
-    
-    <aside id="right-sidebar" class="sidebar">
-      <div class="panel layer-panel">
-        <h2> Layers </h2>
-        <div id="layer-list">
-          <div class="layer-item active" data-layer-id="0">
-            <input type="checkbox" checked> Layer 1 <span class="layer-opacity"> 100% </span>
-            <button class="layer-options-btn"> Settings </button>
-          </div>
-        </div>
-        <div class="layer-controls">
-          <button id="add-layer-btn" title="Add New Layer"> Add Layer </button>
-          <button id="delete-layer-btn" title="Delete Active Layer"> Delete Layer </button>
-          <button id="move-layer-up-btn" title="Move Layer Up"> Move Up </button>
-          <button id="move-layer-down-btn" title="Move Layer Down"> Move Down </button>
-          <button id="merge-layers-btn" title="Merge Layers"> Merge Layers </button>
-        </div>
-      </div>
-
-      <div class="panel animation-panel">
-        <h2> Animation </h2>
-        <div id="animation-controls">
-          <div class="frame-item active" data-frame-id="0"> Frame 1 (100ms) </div>
-        </div>
-        <div class="animation-controls">
-          <button id="add-frame-btn" title="Add Frame"> Add Frame </button>
-          <button id="delete-frame-btn" title="Delete Frame"> Delete Frame </button>
-          <button id="duplicate-frame-btn" title="Duplicate Frame"> Duplicate Frame </button>
-          <button id="play-animation-btn" title="Play Animation"> Play </button>
-          <button id="stop-animation-btn" title="Stop Animation"> Stop </button>
-          <label for="onion-skin-toggle"> Onion Skin: </label>
-          <input type="checkbox" id="onion-skin-toggle" />
-        </div>
-      </div>
-      </aside>
-    </main>
-
-    <footer id="status-bar">
-      <span> Status: Ready</span>
-      <span id="coordinates"> X: 0, Y: 0</span>
-      <span id="canvas-size"> Canvas: 32x32 </span>
-    </footer>
-
-    <input type="file" id="import-file-input" accept=".json, .png, .jpg, image/*" style="display: none;" />
-
-    <script type="module" src="js/main.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
-
