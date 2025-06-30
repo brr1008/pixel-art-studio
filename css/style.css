@@ -9,8 +9,25 @@ body {
   min-height: 100vh;
   overflow: hidden;
 }
-
-h1, h2 {
+#app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+} 
+#app h1, #app h2 {
+  color: #f0f0f0;
+  text-align: center;
+  margin: 10px 0;
+}
+#app h1 {
+  font-size: 2em;
+  margin-top: 20px;
+}
+#app h2 {
+  font-size: 1.5em;
+  margin-top: 10px;
+}   
+#app h1, #app h2 {
   color: #f0f0f0;
   text-align: center;
   margin: 10px 0;

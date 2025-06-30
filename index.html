@@ -10,12 +10,13 @@
 <body>
   <header>
     <h1>🎨 Pixel Art Studio</h1>
-    <nav id="top-menu">
+    <div class="top-menu">
       <button id="file-menu-btn">File</button>
       <button id="edit-menu-btn">Edit</button>
       <button id="view-menu-btn">View</button>
       <button id="help-menu-btn">Help</button>
-    </nav>
+      <button id="share-image-btn" title="Share your pixel art!">Share</button>
+    </div>
   </header>
   
   <main id="app-container">
@@ -58,6 +59,7 @@
 
     <section id="canvas-area">
       <div id="canvas-controls">
+        <span id="canvas-size"> Canvas: 32x32</span>
         <button id="undo-btn" title="Undo (Ctrl+Z)"> Undo </button>
         <button id="redo-btn" title="Redo (Ctrl+Y)"> Redo </button>
         <button id="clear-canvas-btn" title="Clear Canvas"> Clear Canvas </button>
