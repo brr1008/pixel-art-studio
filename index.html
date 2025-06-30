@@ -5,30 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pixel Art Studio</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/components.css" />
 </head>
 <body>
-  <h1>🎨 Pixel Art Studio</h1>
-  <div id="toolbar">
-    <label for="tool">Tool:</label>
-    <select id="tool">
-      <option value="brush">Brush</option>
-      <option value="eraser">Eraser</option>
-      <option value="fill">Fill</option>
-      <option value="eyedropper">Eyedropper</option>
-    </select>
-    <input type="color" id="colorPicker" />
-    <div id="palette"></div>
-    <button id="clear">Clear</button>
-    <button id="save">Save as PNG</button>
-    <button id="export">Export JSON</button>
-    <button id="import">Import JSON</button>
-    <input type="file" id="fileInput" hidden />
-  </div>
+  <header>
+    <h1>🎨 Pixel Art Studio</h1>
+    <nav id="top-menu">
+      <button id="file-menu-btn">File</button>
+      <button id="edit-menu-btn">Edit</button>
+      <button id="view-menu-btn">View</button>
+      <button id="help-menu-btn">Help</button>
+    </nav>
+  </header>
+  
+  <main id="app-container">
+    <aside id="left-sidebar" class="sidebar">
+      <div class="panel tool-panel">
+        <h2> Tools </h2>
+        <div id="tool-icons" class="icon-grid">
+          <button class="tool-btn active" data-tool="brush" title="Brush (B)"> Brush </button>
+          <button class="tool-btn" data-tool="eraser" title="Eraser (E)"> Eraser</button>
+          <button class="tool-btn" data-tool="fill" title="Fill Bucket (G)"> Fill Bucket </button>
+          <button class="tool-btn" data-tool="eyedropper" title="Eyedropper (I)"> Eye Dropper </button>
+          <button class="tool-btn" data-tool="rectangle" title="Rectangle (R)"> Rectangle </button>
+          <button class="tool-btn" data-tool="circle" title="Circle (C)"> Circle </button>
+          <button class="tool-btn" data-tool="select" title="Selection (M)"> Selection </button>
+          <button class="tool-btn" data-tool="pan" title="Pan (H)"> Pan </button>
+          <button class="tool-btn" data-tool="zoom" title="Zoom (Z)"> Zoom </button>
+        </div>
+        <div id="tool-options">
+          <label for="brush-size">Brush Size:</label>
+          <input type="range" id="brush-size" min="1" max="50" value="5" />
+          <span id="brush-size-value">5</span>
+        </div>
+      </div>
 
-  <div id="grid"></div>
-  <canvas id="canvas" width="320" height="320"></canvas>
+      <div class="panel color-panel">
+        <h2> Colors </h2>
+        <input type="color" id="current-color-picker" value="#000000" />
+        <div id="palette-display" class="palette-grid">
+          <div class="color-swatch" style="background-color: #000000;"></div>
+          <div class="color-swatch" style="background-color: #ffffff;"></div>
+          <div class="color-swatch" style="background-color: #ff0000;"></div>
+          <div class="color-swatch" style="background-color: #00ff00;"></div>
+          <div class="color-swatch" style="background-color: #0000ff;"></div>
+        </div>
+        <button id="add-color-btn" title="Add Color"> Add Color </button>
+        <button id="add-to-palette-btn" title="Add to Palette"> Add to Palette </button>
+        <button id="manage-palette-btn" title="Manage Palette"> Manage Palette </button>
+      </div>
+    </aside>
 
-  <script src="script.js"></script>
+    <section id="canvas-area">
+      <div id="canvas-controls">
+        <button id="undo-btn" title="Undo (Ctrl+Z)"> Undo </button>
+        <button id="redo-btn" title="Redo (Ctrl+Y)"> Redo </button>
+        <button id="clear-canvas-btn" title="Clear Canvas"> Clear Canvas </button>
+        <label for="zoom-level">Zoom:</label>
+        <input type="range" id="zoom-level" min="1" max="10" value="1" step="0.1" />
+        <span id="zoom-value">100%</span>
+        <label for="grid-visibility">Grid:</label>
+        <input type="checkbox" id="grid-visibility" checked />
+      </div>
+      <div id="canvas-wrapper">
+        <canvas id="pixel-canvas"></canvas>
+      </div>
+    </section>
+    
+    <aside id="right-sidebar" class="sidebar">
+      <div class="panel layer-panel">
+        <h2> Layers </h2>
+        <div id="layer-list">
+          <div class="layer-item active" data-layer-id="0">
+            <input type="checkbox" checked> Layer 1 <span class="layer-opacity"> 100% </span>
+            <button class="layer-options-btn"> Settings </button>
+          </div>
+        </div>
+        <div class="layer-controls">
+          <button id="add-layer-btn" title="Add New Layer"> Add Layer </button>
+          <button id="delete-layer-btn" title="Delete Active Layer"> Delete Layer </button>
+          <button id="move-layer-up-btn" title="Move Layer Up"> Move Up </button>
+          <button id="move-layer-down-btn" title="Move Layer Down"> Move Down </button>
+          <button id="merge-layers-btn" title="Merge Layers"> Merge Layers </button>
+        </div>
+      </div>
+
+      <div class="panel animation-panel">
+        <h2> Animation </h2>
+        <div id="animation-controls">
+          <div class="frame-item active" data-frame-id="0"> Frame 1 (100ms) </div>
+        </div>
+        <div class="animation-controls">
+          <button id="add-frame-btn" title="Add Frame"> Add Frame </button>
+          <button id="delete-frame-btn" title="Delete Frame"> Delete Frame </button>
+          <button id="duplicate-frame-btn" title="Duplicate Frame"> Duplicate Frame </button>
+          <button id="play-animation-btn" title="Play Animation"> Play </button>
+          <button id="stop-animation-btn" title="Stop Animation"> Stop </button>
+          <label for="onion-skin-toggle"> Onion Skin: </label>
+          <input type="checkbox" id="onion-skin-toggle" />
+        </div>
+      </div>
+      </aside>
+    </main>
+
+    <footer id="status-bar">
+      <span> Status: Ready</span>
+      <span id="coordinates"> X: 0, Y: 0</span>
+      <span id="canvas-size"> Canvas: 32x32 </span>
+    </footer>
+
+    <input type="file" id="import-file-input" accept=".json, .png, .jpg, image/*" style="display: none;" />
+
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
 
